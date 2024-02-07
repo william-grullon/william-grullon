@@ -1,4 +1,4 @@
 - 👋 Hi there, I’m @william-grullon aka William Grullon
 - 👀 I’m interested in scuba diving, world history, and leaving a positive mark in this world.
-- 🌱 I’m currently learning to become a Cloud Architect.
+- 🌱 I’m currently learning to become an Gen AI expert.
 - 💞️ I’m looking to collaborate on open-source projects that help small businesses
