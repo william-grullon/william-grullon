@@ -7,7 +7,7 @@ C# • .NET • React • SQL Server • Azure
 
 ## 🚀 About Me
 
-With over 7 years of experience in delivering scalable and maintainable software solutions for enterprise and government organizations, I specialize in full application lifecycle development. My expertise encompasses:
+With over 10 years of experience in delivering scalable and maintainable software solutions for enterprise and government organizations, I specialize in full application lifecycle development. My expertise encompasses:
 
 - **Languages & Frameworks**: C#, .NET, React, JavaScript, Python
 - **Databases**: SQL Server, Oracle
