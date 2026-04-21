@@ -6,29 +6,26 @@
     --primary-light: #818cf8;
     --primary-dark: #4f46e5;
     
-    --bg-light: #f8fafc;
-    --text-dark: #0f172a;
+    /* Light Theme (Default) */
+    --bg-main: #f8fafc;
+    --bg-secondary: #ffffff;
+    --text-main: #0f172a;
     --text-muted: #64748b;
-    
-    --bg-dark: #020617;
-    --text-white: #f8fafc;
-    --text-dim: #94a3b8;
-    
     --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.2);
-    
+    --glass-border: rgba(0, 0, 0, 0.05);
     --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg-light: #020617;
-        --text-dark: #f8fafc;
-        --text-muted: #94a3b8;
-        --glass-bg: rgba(15, 23, 42, 0.8);
-        --glass-border: rgba(255, 255, 255, 0.1);
-    }
+[data-theme="dark"] {
+    --bg-main: #020617;
+    --bg-secondary: #0f172a;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --glass-bg: rgba(15, 23, 42, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -40,14 +37,15 @@
 
 body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: var(--bg-light);
+    background-color: var(--bg-main);
     background-image: 
         radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.03) 0, transparent 50%), 
         radial-gradient(at 50% 0%, rgba(99, 102, 241, 0.03) 0, transparent 50%), 
         radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.03) 0, transparent 50%);
-    color: var(--text-dark);
+    color: var(--text-main);
     line-height: 1.6;
     overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4 {
@@ -100,7 +98,7 @@ h1, h2, h3, h4 {
 
 .nav-links a {
     text-decoration: none;
-    color: var(--text-dark);
+    color: var(--text-main);
     font-weight: 500;
     font-size: 0.95rem;
     transition: all 0.3s ease;
@@ -240,7 +238,7 @@ h1, h2, h3, h4 {
 }
 
 #about strong {
-    color: var(--text-dark);
+    color: var(--text-main);
     font-weight: 600;
 }
 
@@ -301,7 +299,7 @@ h1, h2, h3, h4 {
     height: 12px;
     background: var(--primary);
     border-radius: 50%;
-    border: 3px solid var(--bg-light);
+    border: 3px solid var(--bg-main);
 }
 
 .experience-item h3 {
@@ -395,7 +393,7 @@ h1, h2, h3, h4 {
 .tech-stack {
     margin-top: auto;
     font-size: 0.85rem;
-    color: var(--text-dark);
+    color: var(--text-main);
     background: rgba(99, 102, 241, 0.1);
     padding: 0.5rem 1rem;
     border-radius: 12px;
@@ -432,7 +430,7 @@ h1, h2, h3, h4 {
 
 /* Footer */
 footer {
-    background: var(--bg-light);
+    background: var(--bg-main);
     border-top: 1px solid var(--glass-border);
     padding: 4rem 0;
     text-align: center;
@@ -496,16 +494,58 @@ footer p {
     }
 }
 
-/* Lab / Game Section */
+/* Theme Toggle */
+.theme-toggle {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+    margin-left: 1.5rem;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+[data-theme="dark"] .sun-icon {
+    display: block;
+}
+[data-theme="dark"] .moon-icon {
+    display: none;
+}
+.sun-icon {
+    display: none;
+}
+.moon-icon {
+    display: block;
+}
+
+/* Lab / Game Section Adjustments */
 #lab {
-    background: var(--bg-dark);
-    color: white;
+    background: var(--bg-main);
+    color: var(--text-main);
     padding: 100px 0;
     text-align: center;
 }
 
 #lab h2 {
-    color: var(--primary-light);
+    color: var(--primary);
     justify-content: center;
 }
 
