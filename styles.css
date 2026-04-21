@@ -496,24 +496,115 @@ footer p {
     }
 }
 
-@media (max-width: 480px) {
-    .hero h1 {
-        font-size: 2.25rem;
+/* Lab / Game Section */
+#lab {
+    background: var(--bg-dark);
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+}
+
+#lab h2 {
+    color: var(--primary-light);
+    justify-content: center;
+}
+
+.game-container {
+    max-width: 800px;
+    margin: 3rem auto;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+#game-canvas {
+    background: #020617;
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    cursor: crosshair;
+}
+
+.game-ui {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+}
+
+.game-stats {
+    text-align: left;
+}
+
+.game-stats span {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.game-stats strong {
+    font-size: 1.5rem;
+    color: var(--primary-light);
+    font-family: 'Outfit', sans-serif;
+}
+
+.game-controls {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.tech-unlocked {
+    margin-top: 2rem;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 16px;
+}
+
+.tech-unlocked h4 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: var(--primary-light);
+}
+
+.tech-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tech-badge {
+    padding: 0.3rem 0.8rem;
+    background: var(--primary);
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    animation: bounceIn 0.5s ease-out;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0); }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+    .game-container {
+        padding: 1rem;
     }
     
-    .hero {
-        text-align: center;
-        padding-top: 60px;
-    }
-    
-    .social-links {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .social-links a {
+    #game-canvas {
         width: 100%;
-        text-align: center;
+        height: auto;
     }
 }
 

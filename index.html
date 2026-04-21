@@ -16,6 +16,7 @@
                 <li><a href="#tech">Tech Stack</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#lab">Lab</a></li>
             </ul>
         </div>
     </nav>
@@ -157,6 +158,39 @@
                 </div>
             </div>
         </section>
+        <section id="lab" class="section">
+            <div class="container">
+                <h2>🚀 The Innovation Lab</h2>
+                <p>Eat the "Tech Pills" to grow your stack! Master all technologies to win.</p>
+                
+                <div class="game-container">
+                    <div class="game-ui">
+                        <div class="game-stats">
+                            <span>CURRENT SCORE</span>
+                            <strong id="game-score">0</strong>
+                        </div>
+                        <button id="start-btn" class="btn-primary">START GAME</button>
+                        <div class="game-stats" style="text-align: right;">
+                            <span>HIGH SCORE</span>
+                            <strong id="high-score">0</strong>
+                        </div>
+                    </div>
+                    
+                    <canvas id="game-canvas" width="600" height="400"></canvas>
+                    
+                    <div class="tech-unlocked">
+                        <h4>TECHNOLOGIES MASTERED:</h4>
+                        <div id="tech-list" class="tech-badges">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                    
+                    <div class="game-controls">
+                        <p>Use <strong>WASD</strong> or <strong>ARROWS</strong> to control the snake.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
@@ -183,6 +217,197 @@
                 });
             });
         });
+    </script>
+    <script>
+        // Tech Stack Snake Game Engine
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('game-score');
+        const highScoreEl = document.getElementById('high-score');
+        const startBtn = document.getElementById('start-btn');
+        const techList = document.getElementById('tech-list');
+
+        const techStacks = ['React', '.NET', 'SQL Server', 'Azure', 'Docker', 'Next.js', 'TypeScript', 'Node.js', 'Python', 'Power BI', 'LangChain', 'gRPC'];
+        let masteredTech = [];
+        
+        let snake = [{x: 10, y: 10}];
+        let food = {x: 15, y: 15, tech: 'React'};
+        let dx = 1;
+        let dy = 0;
+        let score = 0;
+        let highScore = localStorage.getItem('snake-high-score') || 0;
+        let gameInterval;
+        let isPlaying = false;
+        const gridSize = 20;
+        const tileCountX = canvas.width / gridSize;
+        const tileCountY = canvas.height / gridSize;
+
+        highScoreEl.textContent = highScore;
+
+        function drawGame() {
+            clearCanvas();
+            moveSnake();
+            checkFood();
+            drawFood();
+            drawSnake();
+            checkCollision();
+        }
+
+        function clearCanvas() {
+            ctx.fillStyle = '#020617';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Grid lines (subtle)
+            ctx.strokeStyle = 'rgba(99, 102, 241, 0.05)';
+            for(let i=0; i<canvas.width; i+=gridSize) {
+                ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,canvas.height); ctx.stroke();
+            }
+            for(let i=0; i<canvas.height; i+=gridSize) {
+                ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(canvas.width,i); ctx.stroke();
+            }
+        }
+
+        function drawSnake() {
+            snake.forEach((part, index) => {
+                const alpha = 1 - (index / snake.length) * 0.6;
+                ctx.fillStyle = `rgba(99, 102, 241, ${alpha})`;
+                ctx.strokeStyle = '#818cf8';
+                
+                // Rounded segments
+                const x = part.x * gridSize;
+                const y = part.y * gridSize;
+                ctx.beginPath();
+                ctx.roundRect(x+1, y+1, gridSize-2, gridSize-2, 4);
+                ctx.fill();
+                if(index === 0) ctx.stroke(); // Head outline
+            });
+        }
+
+        function moveSnake() {
+            const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+            snake.unshift(head);
+            snake.pop();
+        }
+
+        function drawFood() {
+            ctx.fillStyle = '#f8fafc';
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#6366f1';
+            ctx.beginPath();
+            ctx.arc(food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2, gridSize/3, 0, Math.PI*2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            
+            // Label
+            ctx.fillStyle = '#6366f1';
+            ctx.font = 'bold 10px Inter';
+            ctx.textAlign = 'center';
+            ctx.fillText(food.tech, food.x * gridSize + gridSize/2, food.y * gridSize - 5);
+        }
+
+        function checkFood() {
+            if(snake[0].x === food.x && snake[0].y === food.y) {
+                score += 10;
+                scoreEl.textContent = score;
+                
+                if(!masteredTech.includes(food.tech)) {
+                    masteredTech.push(food.tech);
+                    addTechBadge(food.tech);
+                }
+                
+                // Grow snake
+                snake.push({...snake[snake.length-1]});
+                
+                // New food
+                spawnFood();
+                
+                if(score > highScore) {
+                    highScore = score;
+                    highScoreEl.textContent = highScore;
+                    localStorage.setItem('snake-high-score', highScore);
+                }
+            }
+        }
+
+        function spawnFood() {
+            food.x = Math.floor(Math.random() * tileCountX);
+            food.y = Math.floor(Math.random() * tileCountY);
+            food.tech = techStacks[Math.floor(Math.random() * techStacks.length)];
+            
+            // Don't spawn on snake
+            if(snake.some(p => p.x === food.x && p.y === food.y)) spawnFood();
+        }
+
+        function checkCollision() {
+            const head = snake[0];
+            
+            // Walls
+            if(head.x < 0 || head.x >= tileCountX || head.y < 0 || head.y >= tileCountY) {
+                gameOver();
+            }
+            
+            // Self
+            for(let i=1; i<snake.length; i++) {
+                if(head.x === snake[i].x && head.y === snake[i].y) {
+                    gameOver();
+                }
+            }
+        }
+
+        function addTechBadge(tech) {
+            const badge = document.createElement('div');
+            badge.className = 'tech-badge';
+            badge.textContent = tech;
+            techList.appendChild(badge);
+        }
+
+        function gameOver() {
+            clearInterval(gameInterval);
+            isPlaying = false;
+            startBtn.textContent = 'RESTART LAB';
+            ctx.fillStyle = 'rgba(2, 6, 23, 0.8)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 30px Outfit';
+            ctx.textAlign = 'center';
+            ctx.fillText('SYSTEM OVERLOAD', canvas.width/2, canvas.height/2);
+            ctx.font = '16px Inter';
+            ctx.fillText('Score: ' + score, canvas.width/2, canvas.height/2 + 40);
+        }
+
+        function handleInput(e) {
+            if(!isPlaying) return;
+            switch(e.key.toLowerCase()) {
+                case 'arrowup':
+                case 'w': if(dy !== 1) { dx = 0; dy = -1; } break;
+                case 'arrowdown':
+                case 's': if(dy !== -1) { dx = 0; dy = 1; } break;
+                case 'arrowleft':
+                case 'a': if(dx !== 1) { dx = -1; dy = 0; } break;
+                case 'arrowright':
+                case 'd': if(dx !== -1) { dx = 1; dy = 0; } break;
+            }
+        }
+
+        startBtn.addEventListener('click', () => {
+            if(isPlaying) return;
+            
+            // Reset
+            snake = [{x: 10, y: 10}];
+            dx = 1; dy = 0;
+            score = 0;
+            scoreEl.textContent = '0';
+            masteredTech = [];
+            techList.innerHTML = '';
+            isPlaying = true;
+            startBtn.textContent = 'LAB ACTIVE';
+            spawnFood();
+            
+            if(gameInterval) clearInterval(gameInterval);
+            gameInterval = setInterval(drawGame, 100);
+        });
+
+        window.addEventListener('keydown', handleInput);
     </script>
 </body>
 </html>
