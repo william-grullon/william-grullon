@@ -27,7 +27,7 @@
             <p class="tagline">Delivering Scalable Solutions for Government & Enterprise Clients with over 10 years of experience.</p>
             <div class="social-links">
                 <a href="https://www.linkedin.com/in/william-grullon" target="_blank" class="btn-primary">Connect on LinkedIn</a>
-                <a href="mailto:Willgrullon@outlook.com" class="btn-secondary">Send an Email</a>
+                <a href="#" class="btn-secondary contact-email" data-u="V2lsbGdydWxsb24=" data-d="b3V0bG9vay5jb20=">Send an Email</a>
             </div>
         </div>
     </header>
@@ -163,11 +163,27 @@
         <div class="container">
             <div class="social-links">
                 <a href="https://www.linkedin.com/in/william-grullon" target="_blank">LinkedIn</a>
-                <a href="mailto:Willgrullon@outlook.com">Email</a>
+                <a href="#" class="contact-email" data-u="V2lsbGdydWxsb24=" data-d="b3V0bG9vay5jb20=">Email</a>
             </div>
             <p>&copy; 2026 William Grullon. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        // Simple email obfuscation to prevent scrapers
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.contact-email').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const u = atob(link.getAttribute('data-u'));
+                    const d = atob(link.getAttribute('data-d'));
+                    if (u && d) {
+                        e.preventDefault();
+                        window.location.href = `mailto:${u}@${d}`;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
 
