@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <script>
         // Check for saved theme or default to light mode
-        const savedTheme = localStorage.getItem('theme');
+        const savedTheme = localStorage.getItem('wg-portfolio-theme');
         const initialTheme = savedTheme || 'light';
         document.documentElement.setAttribute('data-theme', initialTheme);
     </script>
@@ -214,8 +214,9 @@
     </footer>
 
     <script>
-        // Simple email obfuscation to prevent scrapers
+        // Simple email obfuscation and theme toggle
         document.addEventListener('DOMContentLoaded', () => {
+            // Email obfuscation
             document.querySelectorAll('.contact-email').forEach(link => {
                 link.addEventListener('click', (e) => {
                     const u = atob(link.getAttribute('data-u'));
@@ -226,15 +227,23 @@
                     }
                 });
             });
-        });
 
-        // Theme Toggle Logic
-        const themeToggle = document.getElementById('theme-toggle');
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
+            // Theme Toggle Logic
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    
+                    try {
+                        localStorage.setItem('wg-portfolio-theme', newTheme);
+                    } catch (e) {
+                        console.warn('LocalStorage access denied:', e);
+                    }
+                });
+            }
         });
     </script>
     <script>
