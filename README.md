@@ -4,7 +4,6 @@
 *Delivering Scalable Solutions for Government & Enterprise Clients*
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-william--grullon-0A66C2?style=flat&logo=linkedin)](https://www.linkedin.com/in/william-grullon)
-[![Email](https://img.shields.io/badge/Email-Willgrullon%40outlook.com-D14836?style=flat&logo=gmail&logoColor=white)](mailto:Willgrullon@outlook.com)
 
 ---
 
